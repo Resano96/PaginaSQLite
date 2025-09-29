@@ -2,32 +2,35 @@ import os
 import sqlite3
 import tempfile
 from datetime import datetime
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify, send_file, session
+from flask_session import Session
+import uuid
 
 app = Flask(__name__)
 
-# === Configuración de la base de datos desechable ===
-temp_dir = tempfile.gettempdir()
-DB_PATH = os.path.join(temp_dir, "temp_data.db")
+# === Configuración de sesiones ===
+app.secret_key = os.environ.get("SECRET_KEY", "clave-secreta")
+app.config["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_FILE_DIR"] = os.path.join(tempfile.gettempdir(), "flask_sessions")
+os.makedirs(app.config["SESSION_FILE_DIR"], exist_ok=True)
+Session(app)
 
-# Carpetas para descargas
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-BACKUP_DIR = os.path.join(BASE_DIR, "database", "auto_backups")
-MANUAL_BACKUP_DIR = os.path.join(BASE_DIR, "database", "manual_backups")
-os.makedirs(BACKUP_DIR, exist_ok=True)
-os.makedirs(MANUAL_BACKUP_DIR, exist_ok=True)
+# === Función para obtener ruta de BD por usuario ===
+def get_db_path():
+    if "db_id" not in session:
+        session["db_id"] = str(uuid.uuid4())[:8]  # identificador único
+    return os.path.join(tempfile.gettempdir(), f"temp_data_{session['db_id']}.db")
 
 def get_conn():
-    return sqlite3.connect(DB_PATH, check_same_thread=False)
-
-# Al iniciar: crear archivo temporal vacío
-if os.path.exists(DB_PATH):
-    os.remove(DB_PATH)
-open(DB_PATH, "a").close()
+    return sqlite3.connect(get_db_path(), check_same_thread=False)
 
 
 @app.route("/")
 def index():
+    # Si no existe la BD del usuario, crearla vacía
+    db_path = get_db_path()
+    if not os.path.exists(db_path):
+        open(db_path, "a").close()
     return render_template("index.html")
 
 
@@ -43,7 +46,6 @@ def execute():
         after = None
 
         if sql.strip().upper().startswith(("INSERT", "UPDATE", "DELETE")):
-            # Detectar tabla
             palabras = sql.strip().split()
             tabla = None
             for i, p in enumerate(palabras):
@@ -90,29 +92,17 @@ def execute():
 
 @app.route("/download-db")
 def download_db():
-    if os.path.exists(DB_PATH):
+    db_path = get_db_path()
+    if os.path.exists(db_path):
         fecha = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        copia_path = os.path.join(BACKUP_DIR, f"ejercicio_{fecha}.db")
-        with open(DB_PATH, "rb") as original, open(copia_path, "wb") as copia:
+        copia_path = os.path.join(tempfile.gettempdir(), f"ejercicio_{fecha}.db")
+        with open(db_path, "rb") as original, open(copia_path, "wb") as copia:
             copia.write(original.read())
         return send_file(copia_path, as_attachment=True)
     else:
         return "Base de datos no encontrada", 404
 
 
-@app.route("/manual-backup", methods=["POST"])
-def manual_backup():
-    data = request.json
-    marca = data.get("marca", "manual")
-    fecha = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    nombre = f"ejercicio_{fecha}_{marca}.db"
-    copia_path = os.path.join(MANUAL_BACKUP_DIR, nombre)
-    with open(DB_PATH, "rb") as original, open(copia_path, "wb") as copia:
-        copia.write(original.read())
-    return jsonify({"success": True, "file": os.path.basename(copia_path)})
-
-
 if __name__ == "__main__":
-    # Para Render, el puerto se define con PORT
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)
