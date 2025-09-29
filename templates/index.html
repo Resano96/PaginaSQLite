@@ -13,7 +13,7 @@
     <!-- Panel izquierdo: botones -->
     <div class="panel-botones">
       <button class="toggle-tema" onclick="toggleDarkMode()">🌙 Cambiar tema</button>
-      <button onclick="crearBackupManual()">📌 Crear backup marcado</button>
+
 
       <h2>📂 Tablas</h2>
 <button data-sql="CREATE TABLE IF NOT EXISTS alumnos (id INTEGER PRIMARY KEY, nombre TEXT, edad INTEGER);" onclick="ponerSQL(this)">Crear tabla Alumnos</button>
@@ -47,7 +47,8 @@
       <button data-sql="SELECT alumnos.nombre, cursos.titulo FROM alumnos JOIN alumnos_cursos ON alumnos.id = alumnos_cursos.alumno_id JOIN cursos ON cursos.id = alumnos_cursos.curso_id;" onclick="ponerSQL(this)">JOIN N:M (Alumnos ↔ Cursos)</button>
 
       <h2>💾 Base de datos</h2>
-      <button onclick="window.location.href='/download-db'">⬇️ Descargar base de datos</button>
+<button onclick="window.location.href='/download-db'">⬇️ Descargar base de datos</button>
+<button onclick="descargarZIP()">💾 Descargar ZIP del ejercicio</button>
       <button onclick="borrarTodas()">Borrar TODAS las tablas</button>
 
     </div>

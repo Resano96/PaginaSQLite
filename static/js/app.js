@@ -211,6 +211,28 @@ function crearBackupManual() {
   .then(res => res.json())
   .then(data => alert("Backup creado: " + data.file));
 }
+// ==== Descargar ZIP con BD + comandos ====
+function descargarZIP() {
+  fetch("/manual-backup", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({})
+  })
+  .then(response => {
+    if (!response.ok) throw new Error("Error al crear el ZIP");
+    return response.blob();
+  })
+  .then(blob => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ejercicio.zip";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  })
+  .catch(err => alert("Error: " + err));
+}
 
 // ==== Tema oscuro ====
 function toggleDarkMode() {
