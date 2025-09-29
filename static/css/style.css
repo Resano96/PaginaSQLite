@@ -1,0 +1,182 @@
+:root {
+  --fondo: #f8f9f8;
+  --texto: #2c3e2f;
+  --verde-suave: #a8d5ba;
+  --verde-claro: #d7f0df;
+  --verde-medio: #7cbf9e;
+  --verde-oscuro: #4b8b6a;
+  --tabla-fila: #ffffff;
+  --tabla-fila-alt: #d7f0df;
+}
+
+body.dark {
+  --fondo: #1e2a23;
+  --texto: #e2f1e8;
+  --verde-suave: #355d48;
+  --verde-claro: #2a4033;
+  --verde-medio: #4b8b6a;
+  --verde-oscuro: #a8d5ba;
+  --tabla-fila: #2a4033;
+  --tabla-fila-alt: #355d48;
+}
+
+/* ===== General ===== */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ===== Título ===== */
+h1 {
+  color: var(--verde-oscuro);
+  text-align: center;
+  margin: 10px 0;
+  flex: 0 0 auto;
+}
+
+/* ===== Layout de dos columnas ===== */
+.contenedor {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+  height: calc(100% - 50px); /* resta espacio al título */
+  overflow: hidden;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+/* ===== Panel izquierdo: botones ===== */
+.panel-botones {
+  background: var(--verde-claro);
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* 👈 scroll independiente */
+}
+
+.toggle-tema {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* ===== Panel derecho ===== */
+.panel-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden; /* 👈 sin scroll aquí */
+}
+
+textarea {
+  border: 1px solid var(--verde-medio);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+  background: white;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+body.dark textarea {
+  background: #2a4033;
+  color: var(--texto);
+}
+
+#output {
+  flex: 1;
+  overflow-y: auto; /* 👈 solo aquí si es necesario */
+  margin-top: 10px;
+  padding: 15px;
+  background: var(--verde-claro);
+  border: 1px solid var(--verde-medio);
+  border-radius: 10px;
+  min-height: 80px;
+}
+
+/* ===== Botones ===== */
+button {
+  background: var(--verde-suave);
+  border: 1px solid var(--verde-medio);
+  color: var(--texto);
+  padding: 8px 12px;
+  margin: 4px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, color 0.2s;
+  width: 100%;
+  text-align: left;
+}
+
+button:hover {
+  background: var(--verde-medio);
+  color: white;
+}
+
+/* ===== Tablas ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: var(--tabla-fila);
+}
+
+th, td {
+  border: 1px solid var(--verde-medio);
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background: var(--verde-suave);
+  color: var(--texto);
+}
+
+tr:nth-child(even) {
+  background: var(--tabla-fila-alt);
+}
+.panel-editor label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#modo-resultado {
+  margin-bottom: 10px;
+  padding: 6px;
+  border: 1px solid var(--verde-medio);
+  border-radius: 6px;
+  background: white;
+}
+
+body.dark #modo-resultado {
+  background: #2a4033;
+  color: var(--texto);
+}
+
+.tabla-lista button {
+  background: var(--verde-suave);
+  margin: 2px 0;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid var(--verde-medio);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.tabla-activa {
+  background: var(--verde-oscuro) !important;
+  color: white !important;
+  font-weight: bold;
+}

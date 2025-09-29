@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Practicando SQLite</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</head>
+<body>
+  <h1>Practicando SQLite</h1>
+
+  <div class="contenedor">
+    <!-- Panel izquierdo: botones -->
+    <div class="panel-botones">
+      <button class="toggle-tema" onclick="toggleDarkMode()">🌙 Cambiar tema</button>
+      <button onclick="crearBackupManual()">📌 Crear backup marcado</button>
+
+      <h2>📂 Tablas</h2>
+<button data-sql="CREATE TABLE IF NOT EXISTS alumnos (id INTEGER PRIMARY KEY, nombre TEXT, edad INTEGER);" onclick="ponerSQL(this)">Crear tabla Alumnos</button>
+<button data-sql="CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY, nombre TEXT);" onclick="ponerSQL(this)">Crear tabla Usuarios</button>
+<button data-sql="CREATE TABLE IF NOT EXISTS cursos (id INTEGER PRIMARY KEY, titulo TEXT);" onclick="ponerSQL(this)">Crear tabla Cursos</button>
+<button data-sql="DROP TABLE alumnos;" onclick="ponerSQL(this)">Borrar tabla Alumnos</button>
+<button data-sql="DROP TABLE usuarios;" onclick="ponerSQL(this)">Borrar tabla Usuarios</button>
+<button data-sql="DROP TABLE cursos;" onclick="ponerSQL(this)">Borrar tabla Cursos</button>
+<button onclick="verTablas()">Ver tablas</button>
+<h2>⚙️ Estructura</h2>
+<button onclick="anadirColumna()">Añadir columna</button>
+<button onclick="modificarColumna()">Modificar columna</button>
+
+
+      <h2>📝 Datos (tabla activa: <span id="tabla-activa">alumnos</span>)</h2>
+      <button onclick="insertarEjemplo()">Insertar datos</button>
+      <button onclick="modificarEjemplo()">Modificar datos</button>
+      <button onclick="borrarEjemplo()">Borrar datos</button>
+      <button onclick="consultarEjemplo()">Consultar tabla</button>
+
+
+      <h2>🔗 Relaciones</h2>
+<button data-sql="PRAGMA foreign_keys = ON;" onclick="ponerSQL(this)">Activar claves foráneas</button>
+<button data-sql="CREATE TABLE IF NOT EXISTS perfiles (id INTEGER PRIMARY KEY, usuario_id INTEGER UNIQUE, bio TEXT, FOREIGN KEY (usuario_id) REFERENCES usuarios(id));" onclick="ponerSQL(this)">Relación 1:1 (Usuarios ↔ Perfiles)</button>
+<button data-sql="CREATE TABLE IF NOT EXISTS pedidos (id INTEGER PRIMARY KEY, usuario_id INTEGER, producto TEXT, FOREIGN KEY (usuario_id) REFERENCES usuarios(id));" onclick="ponerSQL(this)">Relación 1:N (Usuarios ↔ Pedidos)</button>
+<button data-sql="CREATE TABLE IF NOT EXISTS alumnos_cursos (alumno_id INTEGER, curso_id INTEGER, PRIMARY KEY (alumno_id, curso_id), FOREIGN KEY (alumno_id) REFERENCES alumnos(id), FOREIGN KEY (curso_id) REFERENCES cursos(id));" onclick="ponerSQL(this)">Relación N:M (Alumnos ↔ Cursos)</button>
+
+      <h2>🔍 Consultas JOIN</h2>
+      <button data-sql="SELECT usuarios.nombre, pedidos.producto FROM usuarios JOIN pedidos ON usuarios.id = pedidos.usuario_id;" onclick="ponerSQL(this)">INNER JOIN Usuarios ↔ Pedidos</button>
+      <button data-sql="SELECT usuarios.nombre, pedidos.producto FROM usuarios LEFT JOIN pedidos ON usuarios.id = pedidos.usuario_id;" onclick="ponerSQL(this)">LEFT JOIN Usuarios ↔ Pedidos</button>
+      <button data-sql="SELECT alumnos.nombre, cursos.titulo FROM alumnos JOIN alumnos_cursos ON alumnos.id = alumnos_cursos.alumno_id JOIN cursos ON cursos.id = alumnos_cursos.curso_id;" onclick="ponerSQL(this)">JOIN N:M (Alumnos ↔ Cursos)</button>
+
+      <h2>💾 Base de datos</h2>
+      <button onclick="window.location.href='/download-db'">⬇️ Descargar base de datos</button>
+      <button onclick="borrarTodas()">Borrar TODAS las tablas</button>
+
+    </div>
+
+    <!-- Panel derecho: editor + resultados -->
+    <div class="panel-editor">
+      <label for="modo-resultado">Mostrar:</label>
+      <select id="modo-resultado">
+        <option value="resultado" selected>Resultado</option>
+        <option value="comparacion">Antes y Después</option>
+        <option value="ninguno">Nada</option>
+      </select>
+
+      <textarea id="editor" rows="6" placeholder="Escribe o selecciona un SQL aquí..."></textarea>
+      <button onclick="ejecutarSQL()">Ejecutar SQL</button>
+      <h2>Salida</h2>
+      <div id="output"></div>
+    </div>
+  </div>
+</body>
+</html>
