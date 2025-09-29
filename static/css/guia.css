@@ -1,0 +1,74 @@
+/* General: mismo estilo que index */
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #121212; /* fondo oscuro */
+  color: #f0f0f0;           /* texto claro */
+}
+
+/* Barra superior */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e1e1e; /* igual que header en index */
+  color: #f8f9fa;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #333;
+}
+
+.top-bar h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.nav-buttons button {
+  background: #2d6a4f; /* mismo verde que botones de index */
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+.nav-buttons button:hover {
+  background: #40916c; /* hover más claro */
+}
+
+/* Secciones */
+h2 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+  border-left: 6px solid #2d6a4f; /* verde consistente */
+  color: #b7e4c7;
+}
+
+/* Contenedor de botones */
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+}
+
+/* Botones de comando */
+.button-group button {
+  background: #2d6a4f; /* mismo verde de index */
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+}
+
+.button-group button:hover {
+  background: #40916c;
+  transform: translateY(-2px);
+}

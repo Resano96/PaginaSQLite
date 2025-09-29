@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Guía de comandos SQL</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/guia.css') }}">
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</head>
+<body>
+<div class="top-bar">
+    <h1>📖 Guía de comandos SQL</h1>
+    <div class="nav-buttons">
+      <button onclick="window.location.href='/'">⬅️ Volver al editor</button>
+    </div>
+  </div>
+
+  <!-- LECTURA -->
+  <h2>Lectura</h2>
+  <div class="button-group">
+    <button title="SELECT -- Selecciona columnas de una tabla SQL" onclick="insertCode('SELECT * FROM tabla;')">SELECT</button>
+    <button title="FROM -- Especifica la tabla o vista de origen de datos" onclick="insertCode('FROM tabla;')">FROM</button>
+    <button title="WHERE -- Filtra filas que cumplan la condición" onclick="insertCode('WHERE columna = valor;')">WHERE</button>
+    <button title="AND -- Combina varias condiciones; todas deben ser ciertas" onclick="insertCode('AND condicion;')">AND</button>
+    <button title="OR -- Combina condiciones; basta con que una se evalúe como cierta" onclick="insertCode('OR condicion;')">OR</button>
+    <button title="IN -- Comprueba si un valor está dentro de una lista dada" onclick="insertCode('columna IN (valor1, valor2);')">IN</button>
+    <button title="LIKE -- Busca patrones usando comodines % y _" onclick="insertCode('columna LIKE \"%texto%\";')">LIKE</button>
+    <button title="IS NULL -- Detecta valores nulos" onclick="insertCode('columna IS NULL;')">IS NULL</button>
+    <button title="DISTINCT -- Devuelve filas únicas evitando duplicados" onclick="insertCode('SELECT DISTINCT columna FROM tabla;')">DISTINCT</button>
+    <button title="JOIN -- Combina filas de dos o más tablas" onclick="insertCode('SELECT * FROM tabla1 JOIN tabla2 ON tabla1.col = tabla2.col;')">JOIN</button>
+    <button title="AS -- Asigna alias a una columna o tabla" onclick="insertCode('SELECT columna AS alias FROM tabla;')">AS</button>
+    <button title="UNION -- Une resultados de dos consultas SELECT eliminando duplicados" onclick="insertCode('SELECT columna FROM tabla1 UNION SELECT columna FROM tabla2;')">UNION</button>
+    <button title="CASE -- Elige un valor según condiciones, similar a IF-ELSE" onclick="insertCode('CASE WHEN condicion THEN valor1 ELSE valor2 END')">CASE</button>
+    <button title="LIMIT -- Limita el número de filas devueltas" onclick="insertCode('LIMIT 10;')">LIMIT</button>
+    <button title="ORDER BY -- Ordena filas por una o más columnas" onclick="insertCode('ORDER BY columna ASC;')">ORDER BY</button>
+  </div>
+
+  <!-- AGREGACIÓN -->
+  <h2>Agregación</h2>
+  <div class="button-group">
+    <button title="GROUP BY -- Agrupa filas para funciones de agregación" onclick="insertCode('SELECT columna, COUNT(*) FROM tabla GROUP BY columna;')">GROUP BY</button>
+    <button title="HAVING -- Filtra grupos tras GROUP BY con condición" onclick="insertCode('HAVING COUNT(columna) > 1;')">HAVING</button>
+    <button title="COUNT -- Devuelve el número de filas que cumple un criterio" onclick="insertCode('SELECT COUNT(*) FROM tabla;')">COUNT</button>
+    <button title="SUM -- Calcula el total de una columna numérica" onclick="insertCode('SELECT SUM(columna) FROM tabla;')">SUM</button>
+    <button title="AVG -- Calcula el valor promedio de una columna numérica" onclick="insertCode('SELECT AVG(columna) FROM tabla;')">AVG</button>
+    <button title="MIN -- Devuelve el valor más pequeño de la columna indicada" onclick="insertCode('SELECT MIN(columna) FROM tabla;')">MIN</button>
+    <button title="MAX -- Devuelve el valor más grande de la columna indicada" onclick="insertCode('SELECT MAX(columna) FROM tabla;')">MAX</button>
+  </div>
+
+  <!-- ESCRITURA -->
+  <h2>Escritura</h2>
+  <div class="button-group">
+    <button title="INSERT -- Inserta nuevas filas en una tabla" onclick="insertCode('INSERT INTO tabla (columna1, columna2) VALUES (valor1, valor2);')">INSERT</button>
+    <button title="UPDATE -- Actualiza valores en filas existentes" onclick="insertCode('UPDATE tabla SET columna = valor WHERE condicion;')">UPDATE</button>
+    <button title="DELETE -- Elimina filas existentes según condición" onclick="insertCode('DELETE FROM tabla WHERE condicion;')">DELETE</button>
+    <button title="TRUNCATE -- Vacía una tabla rápidamente sin registros" onclick="insertCode('TRUNCATE TABLE tabla;')">TRUNCATE</button>
+    <button title="CREATE -- Crea una tabla, vista u otro objeto" onclick="insertCode('CREATE TABLE tabla (columna1 TIPO, columna2 TIPO);')">CREATE</button>
+    <button title="ALTER TABLE -- Modifica la estructura o reglas de la tabla" onclick="insertCode('ALTER TABLE tabla ADD columna TIPO;')">ALTER TABLE</button>
+    <button title="DROP TABLE -- Elimina una tabla de la BD" onclick="insertCode('DROP TABLE tabla;')">DROP TABLE</button>
+  </div>
+
+  <!-- TRANSACCIÓN -->
+  <h2>Transacciones</h2>
+  <div class="button-group">
+    <button title="COMMIT -- Confirma la transacción y fija los cambios" onclick="insertCode('COMMIT;')">COMMIT</button>
+    <button title="ROLLBACK -- Revierte la transacción y deshace cambios" onclick="insertCode('ROLLBACK;')">ROLLBACK</button>
+  </div>
+
+  <!-- DIAGNÓSTICO -->
+  <h2>Diagnóstico</h2>
+  <div class="button-group">
+    <button title="EXPLAIN -- Muestra plan de ejecución de la consulta" onclick="insertCode('EXPLAIN SELECT * FROM tabla;')">EXPLAIN</button>
+    <button title="DESCRIBE -- Muestra estructura de la tabla seleccionada" onclick="insertCode('DESCRIBE tabla;')">DESCRIBE</button>
+  </div>
+
+</body>
+</html>

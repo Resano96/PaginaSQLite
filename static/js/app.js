@@ -233,6 +233,12 @@ function descargarZIP() {
   })
   .catch(err => alert("Error: " + err));
 }
+function insertCode(sql) {
+  navigator.clipboard.writeText(sql).then(() => {
+    alert("Comando copiado al portapapeles. Vuelve al editor y pégalo.");
+  });
+}
+
 
 // ==== Tema oscuro ====
 function toggleDarkMode() {

@@ -51,6 +51,9 @@ def index():
         comandos_por_sesion[session["db_id"]] = []
     return render_template("index.html")
 
+@app.route("/guia")
+def guia():
+    return render_template("guia.html")
 
 @app.route("/execute", methods=["POST"])
 def execute():
