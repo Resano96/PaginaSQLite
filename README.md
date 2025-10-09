@@ -2,6 +2,7 @@
 
 Aplicación web interactiva para **aprender y practicar SQL** usando **Flask** y **SQLite**.  
 Incluye un editor de código, botones de ejemplo para crear tablas y relaciones, y opciones para descargar tus ejercicios como bases de datos `.db`.
+La pagina esta alojada en esta URL: https://pagina-sqlite.onrender.com/
 
 ---
 
